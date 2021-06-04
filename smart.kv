@@ -1,0 +1,590 @@
+<MyLayout>
+	do_default_tab: False
+	
+	size_hint: 1, 1
+	
+	tab_pos: "top_left"
+#BASIC	
+	TabbedPanelItem:
+		text: "Basic"
+		FloatLayout:
+			padding:10
+			BoxLayout:
+				pos_hint:{'x':.0, 'y':.4}
+				size_hint_y:0.6
+				padding:50
+				orientation: "vertical"
+				Label:
+					id:wb_label
+					text: "White Balance"
+				Button:
+					id:wb_btn
+					text: "Do One-Push White Balance"
+					on_release:root.btn_wb()
+				Button:
+					id:wb_btn
+					text: "Standard auto White Balance"
+					on_release:root.btn_awb()
+				Button:
+					id:wb_btn
+					text: "Auto-Fluorescent White Balance"
+					on_release:root.btn_awb_flu()
+			
+			BoxLayout:
+				pos_hint:{'x':.0, 'y':.2}
+				size_hint_y:0.2
+				padding:50
+				Label:
+					size_hint_x:0.2
+					text: "LB shift"
+				
+				Slider:
+					size_hint_x:0.7
+					id:slide_lbshift
+					min: -10
+					max: 10
+					step: 1
+					orientation: "horizontal"
+					on_value:root.slide_lbshift(*args)
+				
+				Label:
+					size_hint_x:0.1
+					text: '{:.0f}'.format(slide_lbshift.value)	
+				
+			BoxLayout:
+				pos_hint:{'x':.0, 'y':.0}
+				size_hint_y:0.2	
+				Label:
+					text:"Color Correction"
+				Switch:	
+					id:switch_cc
+					active: True
+					on_active: root.switch_cc(self.active)
+				Label:
+					text:"Flip"
+				Switch:
+					id:flip
+					active: False
+					on_active: root.switch_flip(self.active)
+#AE					
+	TabbedPanelItem:
+		text: "AE"
+		BoxLayout:
+			padding:20
+			orientation: "vertical"
+			size_hint_y:0.5
+			Label:
+				text:"AE_level"
+			Label:
+				id:brightness
+				text: '{:.0f}'.format(slide_brightness.value)
+			Slider:
+				id:slide_brightness
+				min: 1000
+				max: 20000
+				step: 500
+				value:8500
+				orientation: "horizontal"
+				on_value:root.slide_ae(*args)
+				
+			#Label:
+				#text:"Lens Shading"
+			#Switch:	
+				#id:switch_lshd
+				#active: False
+				#on_active: root.switch_lshd(self.active)	
+			#Label:
+				#id:lshd
+				#text: '{}'.format(slide_lshd.value)
+			#Slider:
+				#id:slide_lshd
+				#min: 1
+				#max: 128
+				#step: 1
+				#orientation: "horizontal"
+				#on_value:root.slide_lshd(*args)	
+				#disabled: False if switch_lshd.active else True 			
+	TabbedPanelItem:
+		text: "Color"
+		GridLayout:
+			padding:10
+			spacing:5
+			rows:7
+			cols:7
+			Label:
+				size_hint_x:0.1
+			Label:
+				text:"Hue"
+				size_hint_x:0.2
+			Label:
+				size_hint_x:0.1
+			Label:
+				text:"Saturation"
+				size_hint_x:0.2
+			Label:
+				size_hint_x:0.1
+			Label:
+				text:"Depth"
+				size_hint_x:0.2
+			Label:	
+				size_hint_x:0.1
+#magenta
+			Label:
+				text:"Magenta"
+				size_hint_x:0.1
+			Slider:
+				id:s_m_h
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				value:0
+				on_value:root.slide_m_h(*args)
+				size_hint_x:0.2
+			Label:
+				text: '{:.0f}'.format(s_m_h.value)
+				size_hint_x:0.1
+			Slider:
+				id:s_m_s
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				value:8
+				on_value:root.slide_m_s(*args)
+				size_hint_x:0.2
+			Label:
+				text: '{:.0f}'.format(s_m_s.value)
+				size_hint_x:0.1
+			Slider:
+				id:s_m_d
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				value:-2
+				on_value:root.slide_m_d(*args)
+				size_hint_x:0.2
+			Label:
+				text: '{:.0f}'.format(s_m_d.value)
+				size_hint_x:0.1
+#red				
+			Label:
+				text:"Red"
+			
+			Slider:
+				id:s_r_h
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				value:10
+				on_value:root.slide_r_h(*args)
+			Label:
+				text: '{:.0f}'.format(s_r_h.value)
+				
+			Slider:
+				id:s_r_s
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				value:-10
+				on_value:root.slide_r_s(*args)
+			Label:
+				text: '{:.0f}'.format(s_r_s.value)
+				
+			Slider:
+				id:s_r_d
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				on_value:root.slide_r_d(*args)
+			Label:
+				text: '{:.0f}'.format(s_r_d.value)
+#yellow					
+			Label:
+				text:"Yellow"
+			
+			Slider:
+				id:s_y_h
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				on_value:root.slide_y_h(*args)
+			Label:
+				text: '{:.0f}'.format(s_y_h.value)
+				
+			Slider:
+				id:s_y_s
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				on_value:root.slide_y_s(*args)
+			Label:
+				text: '{:.0f}'.format(s_y_s.value)
+				
+			Slider:
+				id:s_y_d
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				value:6
+				on_value:root.slide_y_d(*args)
+			Label:
+				text: '{:.0f}'.format(s_y_d.value)
+
+#green					
+			Label:
+				text:"Green"
+			
+			Slider:
+				id:s_g_h
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				on_value:root.slide_g_h(*args)
+			Label:
+				text: '{:.0f}'.format(s_g_h.value)
+				
+			Slider:
+				id:s_g_s
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				on_value:root.slide_g_s(*args)
+			Label:
+				text: '{:.0f}'.format(s_g_s.value)
+				
+			Slider:
+				id:s_g_d
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				on_value:root.slide_g_d(*args)
+			Label:
+				text: '{:.0f}'.format(s_g_d.value)
+
+#cyan					
+			Label:
+				text:"Cyan"
+			
+			Slider:
+				id:s_c_h
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				on_value:root.slide_c_h(*args)
+			Label:
+				text: '{:.0f}'.format(s_c_h.value)
+				
+			Slider:
+				id:s_c_s
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				on_value:root.slide_c_s(*args)
+			Label:
+				text: '{:.0f}'.format(s_c_s.value)
+				
+			Slider:
+				id:s_c_d
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				on_value:root.slide_c_d(*args)
+			Label:
+				text: '{:.0f}'.format(s_c_d.value)
+#blue								
+			Label:
+				text:"Blue"
+			
+			Slider:
+				id:s_b_h
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				on_value:root.slide_b_d(*args)
+			Label:
+				text: '{:.0f}'.format(s_b_h.value)
+				
+			Slider:
+				id:s_b_s
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				on_value:root.slide_b_d(*args)
+			Label:
+				text: '{:.0f}'.format(s_b_s.value)
+				
+			Slider:
+				id:s_b_d
+				cursor_size:20,20
+				min: -10
+				max: 10
+				step: 1
+				on_value:root.slide_b_d(*args)
+			Label:
+				text: '{:.0f}'.format(s_b_d.value)
+
+
+			
+				
+				
+				
+		
+			
+	TabbedPanelItem:
+		text: "Detail"
+		FloatLayout:
+			padding:10
+			BoxLayout:
+				pos_hint:{'x':.0, 'y':.9}
+				size_hint:0.7,0.1
+				
+				Label:
+					text: 'Edge Enhancement'
+				Switch:
+					id:switch_ee
+					active: True
+					on_active: root.switch_ee(self.active)
+					
+				Label:
+					text: 'Show Edge'
+				Switch:
+					id:switch_edge
+					active: False
+					on_active: root.switch_edge(self.active)	
+			BoxLayout:
+				pos_hint:{'x':.7, 'y':.9}
+				size_hint:0.3,0.1
+				
+				Label:
+					text: '3D Noise Reduction'
+				Switch:	
+					id:switch_3dnr
+					active: True
+					on_active: root.switch_3dnr(self.active)
+					
+			GridLayout:
+				cols:3
+				pos_hint:{'x':.0, 'y':.0}
+				size_hint:0.7,0.9
+				BoxLayout:
+					orientation: "vertical"
+					size_hint:0.2,1
+					Label:
+						text:'Gain P'
+					Label:
+						text:'Gain N'
+					Label:
+						text:'Limit P'
+					Label:
+						text:'Limit N'
+					Label:
+						text:'Coring gain'
+					Label:
+						text:'FTL'
+				
+				BoxLayout:
+					orientation: "vertical"
+					size_hint:0.7,1
+					Slider:
+						id:s_ee_gp
+						min:0
+						max:255
+						step:16
+						value:128
+						disabled: False if switch_ee.active else True 
+						on_value:root.slide_ee_gp(*args)
+					Slider:
+						id:s_ee_gn
+						min:0
+						max:255
+						step:16
+						value:128
+						disabled: False if switch_ee.active else True 
+						on_value:root.slide_ee_gn(*args)
+					Slider:
+						id:s_ee_lmt_p
+						min:0
+						max:4095
+						step:32
+						value:2048
+						disabled: False if switch_ee.active else True 
+						on_value:root.slide_ee_lp(*args)
+					Slider:
+						id:s_ee_lmt_n
+						min:0
+						max:4095
+						step:32
+						value:2048
+						disabled: False if switch_ee.active else True 
+						on_value:root.slide_ee_ln(*args)
+					Slider:
+						id:s_ee_c_g
+						min:0
+						max:127
+						step:8	
+						value:24
+						disabled: False if switch_ee.active else True 
+						on_value:root.slide_ee_gain(*args)
+					Slider:
+						id:s_ee_flt
+						min:0
+						max:7
+						step:1
+						value:3
+						disabled: False if switch_ee.active else True 
+						on_value:root.slide_ee_flt(*args)
+							
+				BoxLayout:
+					orientation: "vertical"
+					size_hint:0.1,0.9
+					Label:
+						text: '{:.0f}'.format(s_ee_gp.value)
+					Label:
+						text:'{:.0f}'.format(s_ee_gn.value)
+					Label:
+						text:'{:.0f}'.format(s_ee_lmt_p.value)
+					Label:
+						text:'{:.0f}'.format(s_ee_lmt_n.value)
+					Label:
+						text:'{:.0f}'.format(s_ee_c_g.value)
+					Label:
+						text:'{:.0f}'.format(7-s_ee_flt.value)
+						
+			GridLayout:
+				cols:2
+				size_hint:0.3, 0.9
+				pos_hint:{'x':.7, 'y':.0}
+				BoxLayout:
+					orientation: "vertical"
+					size_hint:0.5,1
+					Label:
+						size_hint:1,0.1
+						text:'Intensity'
+					Slider:
+						size_hint:1,0.8
+						id:s_3dnr_int
+						min:0
+						max:7
+						step:1
+						value:3
+						disabled: False if switch_3dnr.active else True 
+						orientation:"vertical"	
+						on_value:root.slide_3dnr_int(*args)
+					Label:
+						size_hint:1,0.1
+						text:'{:.0f}'.format(s_3dnr_int.value)	
+					
+				
+				BoxLayout:	
+					orientation: "vertical"
+					size_hint:0.5,1
+					Label:
+						size_hint:1,0.1
+						text:'Noise Level'
+					Slider:
+						size_hint:1,0.8
+						id:s_3dnr_noise
+						min:0
+						max:7
+						step:1
+						value:4
+						disabled: False if switch_3dnr.active else True 
+						orientation:"vertical"	
+						on_value:root.slide_3dnr_noise(*args)
+					Label:
+						size_hint:1,0.1
+						text:'{:.0f}'.format(s_3dnr_noise.value)	
+					
+				
+		
+
+	TabbedPanelItem:
+		text: "Gamma"
+		BoxLayout:
+			spacing:50
+			padding:50
+			orientation: "vertical"
+			BoxLayout:
+				orientation: "vertical"
+				Label:
+					text: 'Gamma'
+				Switch:
+					id:switch_gamma
+					active: True
+					on_active: root.switch_gamma(self.active)
+			BoxLayout:
+				orientation: "vertical"
+				Label:
+					text:'Contrast'
+				Label:
+					text:'{:.0f}'.format(s_contrast.value)		
+				Slider:
+					id:s_contrast
+					min:-2
+					max:2
+					step:1
+					value:2
+					on_value:root.slider_contrast(*args)
+					disabled: False if switch_gamma.active else True	
+			BoxLayout:
+				orientation: "vertical"
+				Label:
+					text:'D-Range'	
+				Label:
+					text:
+						"Low" if s_d_range.value == 0 else \ 
+						"Normal" if s_d_range.value == 1 else \
+						"High" if s_d_range.value== 2 else \
+						"Very High" 
+				Slider:
+					id:s_d_range
+					min:0
+					max:3
+					step:1
+					value:1
+					on_value:root.slider_d_range(*args)
+					disabled: False if switch_gamma.active else True	
+			BoxLayout:
+				orientation: "vertical"
+				Label:
+					text:'Knee'	
+				Label:
+					text:
+						"NONE" if s_knee.value == 7 else \ 
+						"100%" if s_knee.value == 6 else \
+						"95%" if s_knee.value== 5 else \
+						"90%" if s_knee.value== 4 else \
+						"85%" if s_knee.value== 3 else \
+						"80%" if s_knee.value== 2 else \
+						"75%" if s_knee.value== 1 else \
+						"70" 
+				Slider:
+					id:s_knee
+					min:0
+					max:7
+					step:1
+					value:6
+					on_value:root.slider_knee(*args)
+					disabled: True if s_d_range.value == 0 else False if switch_gamma.active else True	
+					#disabled: False if switch_gamma.active else True 
+					
+					
+		
+		
+			
