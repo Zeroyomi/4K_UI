@@ -355,18 +355,32 @@
 				size_hint:0.7,0.1
 				
 				Label:
-					text: 'Edge Enhancement'
+					text: 'Edge Enhance'
 				Switch:
 					id:switch_ee
 					active: True
 					on_active: root.switch_ee(self.active)
 					
 				Label:
+					text: 'FLT Sel'	
+				Spinner:
+					id:s_fltsel
+					size_hint:1, 0.5
+					pos_hint:{'x':0, 'y':.25}
+					text: 'mix'
+					values: ('mix', 'low', 'high')
+					on_text: 
+						if s_fltsel.text == "mix": root.ee_flt(2)
+						elif s_fltsel.text == "low": root.ee_flt(0)
+						elif s_fltsel.text == "high": root.ee_flt(1)
+	
+				Label:
 					text: 'Show Edge'
 				Switch:
 					id:switch_edge
 					active: False
 					on_active: root.switch_edge(self.active)	
+					
 			BoxLayout:
 				pos_hint:{'x':.7, 'y':.9}
 				size_hint:0.3,0.1
@@ -378,10 +392,18 @@
 					active: True
 					on_active: root.switch_3dnr(self.active)
 					
+			BoxLayout:
+				pos_hint:{'x':.0, 'y':.8}
+				size_hint:0.8,0.1
+				orientation: "horizontal"
+				Label:
+					text: 'Low Frequency'
+				Label:
+					text: 'High Frequency'		
 			GridLayout:
-				cols:3
+				cols:5
 				pos_hint:{'x':.0, 'y':.0}
-				size_hint:0.7,0.9
+				size_hint:0.8,0.8
 				BoxLayout:
 					orientation: "vertical"
 					size_hint:0.2,1
@@ -407,7 +429,10 @@
 						max:255
 						step:16
 						value:128
-						disabled: False if switch_ee.active else True 
+						disabled: 
+							True if not switch_ee.active \
+							else True if s_fltsel.text == "high" \
+							else False 
 						on_value:root.slide_ee_gp(*args)
 					Slider:
 						id:s_ee_gn
@@ -415,7 +440,10 @@
 						max:255
 						step:16
 						value:128
-						disabled: False if switch_ee.active else True 
+						disabled: 
+							True if not switch_ee.active \
+							else True if s_fltsel.text == "high" \
+							else False 
 						on_value:root.slide_ee_gn(*args)
 					Slider:
 						id:s_ee_lmt_p
@@ -423,7 +451,10 @@
 						max:4095
 						step:32
 						value:2048
-						disabled: False if switch_ee.active else True 
+						disabled: 
+							True if not switch_ee.active \
+							else True if s_fltsel.text == "high" \
+							else False 
 						on_value:root.slide_ee_lp(*args)
 					Slider:
 						id:s_ee_lmt_n
@@ -431,7 +462,10 @@
 						max:4095
 						step:32
 						value:2048
-						disabled: False if switch_ee.active else True 
+						disabled: 
+							True if not switch_ee.active \
+							else True if s_fltsel.text == "high" \
+							else False 
 						on_value:root.slide_ee_ln(*args)
 					Slider:
 						id:s_ee_c_g
@@ -439,15 +473,21 @@
 						max:127
 						step:8	
 						value:24
-						disabled: False if switch_ee.active else True 
+						disabled: 
+							True if not switch_ee.active \
+							else True if s_fltsel.text == "high" \
+							else False 
 						on_value:root.slide_ee_gain(*args)
 					Slider:
-						id:s_ee_flt
+						id:s_ee_level_0
 						min:0
-						max:7
+						max:14
 						step:1
-						value:3
-						disabled: False if switch_ee.active else True 
+						value:7
+						disabled: 
+							True if not switch_ee.active \
+							else True if s_fltsel.text == "high" \
+							else False 
 						on_value:root.slide_ee_flt(*args)
 							
 				BoxLayout:
@@ -464,12 +504,99 @@
 					Label:
 						text:'{:.0f}'.format(s_ee_c_g.value)
 					Label:
-						text:'{:.0f}'.format(7-s_ee_flt.value)
+						text:'{:.0f}'.format(s_ee_level_0.value)
+						
+				BoxLayout:
+					orientation: "vertical"
+					size_hint:0.7,1
+					Slider:
+						id:s_ee_gp_1
+						min:0
+						max:255
+						step:16
+						value:128
+						disabled: 
+							True if not switch_ee.active \
+							else True if s_fltsel.text == "low" \
+							else False 
+						on_value:root.slide_ee_gp_1(*args)
+					Slider:
+						id:s_ee_gn_1
+						min:0
+						max:255
+						step:16
+						value:128
+						disabled: 
+							True if not switch_ee.active \
+							else True if s_fltsel.text == "low" \
+							else False 
+						on_value:root.slide_ee_gn_1(*args)
+					Slider:
+						id:s_ee_lmt_p_1
+						min:0
+						max:4095
+						step:32
+						value:2048
+						disabled: 
+							True if not switch_ee.active \
+							else True if s_fltsel.text == "low" \
+							else False 
+						on_value:root.slide_ee_lp_1(*args)
+					Slider:
+						id:s_ee_lmt_n_1
+						min:0
+						max:4095
+						step:32
+						value:2048
+						disabled: 
+							True if not switch_ee.active \
+							else True if s_fltsel.text == "low" \
+							else False 
+						on_value:root.slide_ee_ln_1(*args)
+					Slider:
+						id:s_ee_c_g_1
+						min:0
+						max:127
+						step:8	
+						value:24
+						disabled: 
+							True if not switch_ee.active \
+							else True if s_fltsel.text == "low" \
+							else False 
+						on_value:root.slide_ee_gain_1(*args)
+						
+					Slider:
+						id:s_ee_level_1
+						min:0
+						max:14
+						step:1
+						value:7
+						disabled: 
+							True if not switch_ee.active \
+							else True if s_fltsel.text == "low" \
+							else False 
+						on_value:root.slide_ee_level_1(*args)
+							
+				BoxLayout:
+					orientation: "vertical"
+					size_hint:0.1,0.9
+					Label:
+						text: '{:.0f}'.format(s_ee_gp_1.value)
+					Label:
+						text:'{:.0f}'.format(s_ee_gn_1.value)
+					Label:
+						text:'{:.0f}'.format(s_ee_lmt_p_1.value)
+					Label:
+						text:'{:.0f}'.format(s_ee_lmt_n_1.value)
+					Label:
+						text:'{:.0f}'.format(s_ee_c_g_1.value)
+					Label:
+						text:'{:.0f}'.format(s_ee_level_1.value)	
 						
 			GridLayout:
 				cols:2
-				size_hint:0.3, 0.9
-				pos_hint:{'x':.7, 'y':.0}
+				size_hint:0.2, 0.9
+				pos_hint:{'x':.8, 'y':.0}
 				BoxLayout:
 					orientation: "vertical"
 					size_hint:0.5,1

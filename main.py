@@ -17,7 +17,7 @@ kv = Builder.load_file('./smart.kv')
 
 class MyLayout(TabbedPanel): #inherit TabbedPanel
    gamvalue = [4,1,6]
-   ee = ListProperty([128,128,2048,2048,24,4])
+   ee = ListProperty([128,128,2048,2048,16,7])
 #----------------------------basic---------------------------------------     
    def btn_wb(self):
       s.write("wb\r".encode("utf-8"))
@@ -55,7 +55,7 @@ class MyLayout(TabbedPanel): #inherit TabbedPanel
          try:
             s.write("hflip\r".encode("utf-8"))
          except:
-            print('gamma deactive error')   
+            print('flip deactive error')   
             
       else:
          try:
@@ -219,32 +219,45 @@ class MyLayout(TabbedPanel): #inherit TabbedPanel
       if (switchValue == False):
          try:
             s.write("ee off\r".encode("utf-8"))
+            s.flush()
          except:
             print('ee deactive error')    
       else:
          #print(("ee " + str(self.ee[0]) + " " + str(self.ee[1]) + " " + str(self.ee[2]) + " " + str(self.ee[3]) + " " +str(self.ee[4]) + " " +str(self.ee[5]) +"\r").encode("utf-8"))
          try:
-            #s.write(("ee on\r").encode("utf-8"))
-            s.write(("ee " + str(self.ee[0]) + " " + str(self.ee[1]) + " " + str(self.ee[2]) + " " + str(self.ee[3]) + " " +str(self.ee[4]) + " " +str(self.ee[5]) +"\r").encode("utf-8"))
+            s.write(("ee on\r").encode("utf-8"))
+            #s.write(("ee " + str(self.ee[0]) + " " + str(self.ee[1]) + " " + str(self.ee[2]) + " " + str(self.ee[3]) + " " +str(self.ee[4]) + " " +str(self.ee[5]) +"\r").encode("utf-8"))
            
          except:
             print('ee active error')
+            
+   def ee_flt(self, value):
+      flt_sent = "fltsel "+ str(value) + "\r"
+      try:
+         s.write(flt_sent.encode("utf-8"))
+         s.flush()
+      except:
+         print('flt sel error')
+      
+      
    def switch_edge(self, switchValue):
       if (switchValue == False):
          try:
             s.write("ee on\r".encode("utf-8"))
+            s.flush()
          except:
             print('edge deactive error')    
       else:
          try:
             s.write("ee edge\r".encode("utf-8"))
+            s.flush()
          except:
             print('edge active error')
             
    def slide_ee_gp(self, *args):
       self.ee[0] = int(args[1])
       try:
-         s.write(("ee " + "gp " + str(args[1]) + "\r").encode("utf-8"))
+         s.write(("ee " + "gp1 " + str(args[1]) + "\r").encode("utf-8"))
          s.flush()
       except:
          print('ee gp error')         
@@ -252,38 +265,38 @@ class MyLayout(TabbedPanel): #inherit TabbedPanel
    def slide_ee_gn(self, *args):
       self.ee[1] = int(args[1])
       try:
-         s.write(("ee " + "gn " + str(args[1]) + "\r").encode("utf-8"))
+         s.write(("ee " + "gn1 " + str(args[1]) + "\r").encode("utf-8"))
          s.flush()
       except:
          print('ee gn error')
    def slide_ee_lp(self, *args):
       self.ee[2] = int(args[1])
       try:
-         s.write(("ee " + "lp " + str(args[1]) + "\r").encode("utf-8"))
+         s.write(("ee " + "lp1 " + str(args[1]) + "\r").encode("utf-8"))
          s.flush()
       except:
          print('ee lp error')
    def slide_ee_ln(self, *args):
       self.ee[3] = int(args[1])
       try:
-         s.write(("ee " + "ln " + str(args[1]) + "\r").encode("utf-8"))
+         s.write(("ee " + "ln1 " + str(args[1]) + "\r").encode("utf-8"))
          s.flush()
       except:
          print('ee ln error')
    def slide_ee_gain(self, *args):
       self.ee[4] = int(args[1])
       try:
-         s.write(("ee " + "gain " + str(args[1]) + "\r").encode("utf-8"))
+         s.write(("ee " + "gain1 " + str(args[1]) + "\r").encode("utf-8"))
          s.flush()
       except:
          print('ee coring gain error')
    def slide_ee_flt(self, *args):
-      self.ee[5] = 7 - int(args[1])
+      self.ee[5] = int(args[1])
       try:
-         s.write(("ee " + "flt " + str(7-args[1]) + "\r").encode("utf-8"))
+         s.write(("ee " + "level1 " + str(args[1]) + "\r").encode("utf-8"))
          s.flush()
       except:
-         print('ee flt error')          
+         print('ee level1 error')          
 #----------------------------3d nr--------------------------------------
    def switch_3dnr(self, switchValue):
       #if (self.ids.switch_3dnr.active == False):
