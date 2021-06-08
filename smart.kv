@@ -341,7 +341,7 @@
 
 
 			
-				
+#edge enhancement				
 				
 				
 		
@@ -472,7 +472,7 @@
 						min:0
 						max:127
 						step:8	
-						value:24
+						value:16
 						disabled: 
 							True if not switch_ee.active \
 							else True if s_fltsel.text == "high" \
@@ -483,12 +483,12 @@
 						min:0
 						max:14
 						step:1
-						value:7
+						value:3
 						disabled: 
 							True if not switch_ee.active \
 							else True if s_fltsel.text == "high" \
 							else False 
-						on_value:root.slide_ee_flt(*args)
+						on_value:root.slide_ee_level_0(*args)
 							
 				BoxLayout:
 					orientation: "vertical"
@@ -504,7 +504,7 @@
 					Label:
 						text:'{:.0f}'.format(s_ee_c_g.value)
 					Label:
-						text:'{:.0f}'.format(s_ee_level_0.value)
+						text:'{:.0f}'.format(14 - s_ee_level_0.value)
 						
 				BoxLayout:
 					orientation: "vertical"
@@ -558,7 +558,7 @@
 						min:0
 						max:127
 						step:8	
-						value:24
+						value:16
 						disabled: 
 							True if not switch_ee.active \
 							else True if s_fltsel.text == "low" \
@@ -591,7 +591,7 @@
 					Label:
 						text:'{:.0f}'.format(s_ee_c_g_1.value)
 					Label:
-						text:'{:.0f}'.format(s_ee_level_1.value)	
+						text:'{:.0f}'.format(14 - s_ee_level_1.value)	
 						
 			GridLayout:
 				cols:2

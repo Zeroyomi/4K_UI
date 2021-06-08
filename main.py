@@ -17,7 +17,8 @@ kv = Builder.load_file('./smart.kv')
 
 class MyLayout(TabbedPanel): #inherit TabbedPanel
    gamvalue = [4,1,6]
-   ee = ListProperty([128,128,2048,2048,16,7])
+   ee1 = ListProperty([128,128,2048,2048,16,7])
+   ee0 = ListProperty([128,128,2048,2048,16,11])
 #----------------------------basic---------------------------------------     
    def btn_wb(self):
       s.write("wb\r".encode("utf-8"))
@@ -253,50 +254,96 @@ class MyLayout(TabbedPanel): #inherit TabbedPanel
             s.flush()
          except:
             print('edge active error')
-            
+#low freq            
    def slide_ee_gp(self, *args):
-      self.ee[0] = int(args[1])
+      self.ee0[0] = int(args[1])
+      try:
+         s.write(("ee0 " + "gp0 " + str(args[1]) + "\r").encode("utf-8"))
+         s.flush()
+      except:
+         print('ee gp0 error')         
+
+   def slide_ee_gn(self, *args):
+      self.ee0[1] = int(args[1])
+      try:
+         s.write(("ee0 " + "gn0 " + str(args[1]) + "\r").encode("utf-8"))
+         s.flush()
+      except:
+         print('ee gn0 error')
+   def slide_ee_lp(self, *args):
+      self.ee0[2] = int(args[1])
+      try:
+         s.write(("ee0 " + "lp0 " + str(args[1]) + "\r").encode("utf-8"))
+         s.flush()
+      except:
+         print('ee lp0 error')
+   def slide_ee_ln(self, *args):
+      self.ee0[3] = int(args[1])
+      try:
+         s.write(("ee0 " + "ln0 " + str(args[1]) + "\r").encode("utf-8"))
+         s.flush()
+      except:
+         print('ee ln0 error')
+   def slide_ee_gain(self, *args):
+      self.ee0[4] = int(args[1])
+      try:
+         s.write(("ee0 " + "gain0 " + str(args[1]) + "\r").encode("utf-8"))
+         s.flush()
+      except:
+         print('ee coring gain0 error')
+   def slide_ee_level_0(self, *args):
+      self.ee0[5] = 14 - int(args[1])
+      try:
+         s.write(("ee0 " + "level0 " + str(self.ee0[5]) + "\r").encode("utf-8"))
+         s.flush()
+      except:
+         print('ee level0 error')
+         
+#high freq 
+   def slide_ee_gp_1(self, *args):
+      self.ee1[0] = int(args[1])
       try:
          s.write(("ee " + "gp1 " + str(args[1]) + "\r").encode("utf-8"))
          s.flush()
       except:
-         print('ee gp error')         
+         print('ee gp1 error')         
 
-   def slide_ee_gn(self, *args):
-      self.ee[1] = int(args[1])
+   def slide_ee_gn_1(self, *args):
+      self.ee1[1] = int(args[1])
       try:
          s.write(("ee " + "gn1 " + str(args[1]) + "\r").encode("utf-8"))
          s.flush()
       except:
-         print('ee gn error')
-   def slide_ee_lp(self, *args):
-      self.ee[2] = int(args[1])
+         print('ee gn1 error')
+   def slide_ee_lp_1(self, *args):
+      self.ee1[2] = int(args[1])
       try:
          s.write(("ee " + "lp1 " + str(args[1]) + "\r").encode("utf-8"))
          s.flush()
       except:
-         print('ee lp error')
-   def slide_ee_ln(self, *args):
-      self.ee[3] = int(args[1])
+         print('ee lp1 error')
+   def slide_ee_ln_1(self, *args):
+      self.ee1[3] = int(args[1])
       try:
          s.write(("ee " + "ln1 " + str(args[1]) + "\r").encode("utf-8"))
          s.flush()
       except:
-         print('ee ln error')
-   def slide_ee_gain(self, *args):
-      self.ee[4] = int(args[1])
+         print('ee ln1 error')
+   def slide_ee_gain_1(self, *args):
+      self.ee1[4] = int(args[1])
       try:
          s.write(("ee " + "gain1 " + str(args[1]) + "\r").encode("utf-8"))
          s.flush()
       except:
-         print('ee coring gain error')
-   def slide_ee_flt(self, *args):
-      self.ee[5] = int(args[1])
+         print('ee coring gain1 error')
+   def slide_ee_level_1(self, *args):
+      self.ee1[5] = 14 - int(args[1])
       try:
-         s.write(("ee " + "level1 " + str(args[1]) + "\r").encode("utf-8"))
+         s.write(("ee " + "level1 " + str(self.ee1[5]) + "\r").encode("utf-8"))
          s.flush()
       except:
-         print('ee level1 error')          
+         print('ee level1 error')
+         
 #----------------------------3d nr--------------------------------------
    def switch_3dnr(self, switchValue):
       #if (self.ids.switch_3dnr.active == False):
